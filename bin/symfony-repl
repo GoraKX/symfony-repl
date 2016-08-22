@@ -23,10 +23,4 @@ $container = $kernel->getContainer();
 $doctrine = $container->get('doctrine');
 $container->get('cache_clearer')->clear($kernel->getCacheDir());
 
-$vars = [
-    'kernel' => $kernel,
-    'container' => $kernel->getContainer(),
-    'doctrine' => $doctrine,
-];
-
-extract(Psy\Shell::debug($vars));
+extract(Psy\Shell::debug(compact('kernel', 'container', 'doctrine')));
