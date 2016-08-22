@@ -5,11 +5,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $root = getcwd();
 
-require_once $root . '/vendor/autoload.php';
-require_once $root . '/app/bootstrap.php.cache';
-require_once $root . '/app/AppKernel.php';
+require_once $root . '/app/autoload.php';
 
-use Psy\Shell;
+$bootstrap = $root . '/var/bootstrap.php.cache';
+
+if (!file_exists($bootstrap)) {
+    $bootstrap = $root . '/app/bootstrap.php.cache';
+}
+
+require_once $root . '/app/bootstrap.php.cache';
 
 $kernel = new AppKernel('dev', true);
 $kernel->loadClassCache();
@@ -22,7 +26,7 @@ $container->get('cache_clearer')->clear($kernel->getCacheDir());
 $vars = [
     'kernel' => $kernel,
     'container' => $kernel->getContainer(),
-    'doctrine' => $container->get('doctrine'),
+    'doctrine' => $doctrine,
 ];
 
-extract(Shell::debug($vars));
+extract(Psy\Shell::debug($vars));
